@@ -9,7 +9,7 @@ class FunctionsTest extends TestCase
     public function testMakeID(): void
     {
         $size = 20;
-        $this->assertSame($size, strlen(makeID($size)));
+        self::assertSame($size, strlen(makeID($size)));
     }
 
     /**
@@ -20,7 +20,7 @@ class FunctionsTest extends TestCase
      */
     public function testFormatZeroPad($expected, $num, $count): void
     {
-        $this->assertSame($expected, formatZeroPad($num, $count));
+        self::assertSame($expected, formatZeroPad($num, $count));
     }
 
     /**

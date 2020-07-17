@@ -17,7 +17,7 @@ install:
   - composer install -n
 
 script:
-  - composer test -- --coverage-clover=clover.xml
+  - composer test -- --coverage-clover=clover.xml --exclude-group cross-client
   - composer phpstan
   - composer psalm
   - composer security

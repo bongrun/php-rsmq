@@ -30,17 +30,17 @@ class RSMQTest extends TestCase
         $recvMsgRef = $reflection->getProperty('receiveMessageSha1');
         $recvMsgRef->setAccessible(true);
 
-        $this->assertSame(40, strlen($recvMsgRef->getValue($this->rsmq)));
+        self::assertSame(40, strlen($recvMsgRef->getValue($this->rsmq)));
 
         $popMsgRef = $reflection->getProperty('popMessageSha1');
         $popMsgRef->setAccessible(true);
 
-        $this->assertSame(40, strlen($popMsgRef->getValue($this->rsmq)));
+        self::assertSame(40, strlen($popMsgRef->getValue($this->rsmq)));
     }
 
     public function testCreateQueue(): void
     {
-        $this->assertTrue($this->rsmq->createQueue('foo'));
+        self::assertTrue($this->rsmq->createQueue('foo'));
     }
 
     public function testCreateQueueWithInvalidName(): void
@@ -101,15 +101,15 @@ class RSMQTest extends TestCase
 
         $attributes = $this->rsmq->getQueueAttributes('foo');
 
-        $this->assertSame($vt, $attributes->getVt());
-        $this->assertSame($delay, $attributes->getDelay());
-        $this->assertSame($maxSize, $attributes->getMaxSize());
-        $this->assertSame(0, $attributes->getMessageCount());
-        $this->assertSame(0, $attributes->getHiddenMessageCount());
-        $this->assertSame(0, $attributes->getTotalReceived());
-        $this->assertSame(0, $attributes->getTotalSent());
-        $this->assertNotEmpty($attributes->getCreated());
-        $this->assertNotEmpty($attributes->getModified());
+        self::assertSame($vt, $attributes->getVt());
+        self::assertSame($delay, $attributes->getDelay());
+        self::assertSame($maxSize, $attributes->getMaxSize());
+        self::assertSame(0, $attributes->getMessageCount());
+        self::assertSame(0, $attributes->getHiddenMessageCount());
+        self::assertSame(0, $attributes->getTotalReceived());
+        self::assertSame(0, $attributes->getTotalSent());
+        self::assertNotEmpty($attributes->getCreated());
+        self::assertNotEmpty($attributes->getModified());
     }
 
     public function testGetQueueAttributesThatDoesNotExists(): void
@@ -129,10 +129,10 @@ class RSMQTest extends TestCase
 
     public function testListQueues(): void
     {
-        $this->assertEmpty($this->rsmq->listQueues());
+        self::assertEmpty($this->rsmq->listQueues());
 
         $this->rsmq->createQueue('foo');
-        $this->assertSame(['foo'], $this->rsmq->listQueues());
+        self::assertSame(['foo'], $this->rsmq->listQueues());
     }
 
     public function testValidateWithInvalidQueueName(): void
@@ -208,12 +208,12 @@ class RSMQTest extends TestCase
     {
         $this->rsmq->createQueue('foo');
         $id = $this->rsmq->sendMessage('foo', 'foobar');
-        $this->assertSame(32, strlen($id));
+        self::assertSame(32, strlen($id));
         $attributes = $this->rsmq->getQueueAttributes('foo');
-        $this->assertSame(1, $attributes->getMessageCount());
-        $this->assertSame(0, $attributes->getHiddenMessageCount());
-        $this->assertSame(0, $attributes->getTotalReceived());
-        $this->assertSame(1, $attributes->getTotalSent());
+        self::assertSame(1, $attributes->getMessageCount());
+        self::assertSame(0, $attributes->getHiddenMessageCount());
+        self::assertSame(0, $attributes->getTotalReceived());
+        self::assertSame(1, $attributes->getTotalSent());
     }
 
     public function testSendMessageRealtime(): void
@@ -221,7 +221,7 @@ class RSMQTest extends TestCase
         $rsmq = new RSMQClient(new Client(['host' => '127.0.0.1', 'port' => 6379]), 'rsmq', true);
         $rsmq->createQueue('foo');
         $id = $rsmq->sendMessage('foo', 'foobar');
-        $this->assertSame(32, strlen($id));
+        self::assertSame(32, strlen($id));
     }
 
     public function testSendMessageWithBigMessage(): void
@@ -237,7 +237,7 @@ class RSMQTest extends TestCase
     {
         $this->rsmq->createQueue('foo');
         $id = $this->rsmq->sendMessage('foo', 'bar');
-        $this->assertTrue($this->rsmq->deleteMessage('foo', $id));
+        self::assertTrue($this->rsmq->deleteMessage('foo', $id));
     }
 
     public function testReceiveMessage(): void
@@ -248,11 +248,11 @@ class RSMQTest extends TestCase
         $id = $this->rsmq->sendMessage($queue, $message);
         $received = $this->rsmq->receiveMessage($queue);
 
-        $this->assertSame($message, $received->getMessage());
-        $this->assertSame($id, $received->getId());
-        $this->assertNotEmpty($received->getFirstReceived());
-        $this->assertNotEmpty($received->getSent());
-        $this->assertSame(1, $received->getReceiveCount());
+        self::assertSame($message, $received->getMessage());
+        self::assertSame($id, $received->getId());
+        self::assertNotEmpty($received->getFirstReceived());
+        self::assertNotEmpty($received->getSent());
+        self::assertSame(1, $received->getReceiveCount());
     }
 
     public function testReceiveMessageWhenNoMessageExists(): void
@@ -261,7 +261,7 @@ class RSMQTest extends TestCase
         $this->rsmq->createQueue($queue);
         $received = $this->rsmq->receiveMessage($queue);
 
-        $this->assertEmpty($received);
+        self::assertEmpty($received);
     }
 
     public function testChangeMessageVisibility(): void
@@ -269,7 +269,7 @@ class RSMQTest extends TestCase
         $queue = 'foo';
         $this->rsmq->createQueue($queue);
         $id = $this->rsmq->sendMessage($queue, 'bar');
-        $this->assertTrue($this->rsmq->changeMessageVisibility($queue, $id, 60));
+        self::assertTrue($this->rsmq->changeMessageVisibility($queue, $id, 60));
 
     }
 
@@ -282,11 +282,11 @@ class RSMQTest extends TestCase
         $this->rsmq->createQueue($queueName, $vt, $delay, $maxSize);
         $queue = $this->invokeMethod($this->rsmq, 'getQueue', [$queueName, true]);
 
-        $this->assertSame($vt, $queue['vt']);
-        $this->assertSame($delay, $queue['delay']);
-        $this->assertSame($maxSize, $queue['maxsize']);
-        $this->assertArrayHasKey('uid', $queue);
-        $this->assertSame(32, strlen($queue['uid']));
+        self::assertSame($vt, $queue['vt']);
+        self::assertSame($delay, $queue['delay']);
+        self::assertSame($maxSize, $queue['maxsize']);
+        self::assertArrayHasKey('uid', $queue);
+        self::assertSame(32, strlen($queue['uid']));
     }
 
     public function testGetQueueNotFound(): void
@@ -304,8 +304,8 @@ class RSMQTest extends TestCase
         $id = $this->rsmq->sendMessage($queue, $message);
         $received = $this->rsmq->popMessage($queue);
 
-        $this->assertSame($id, $received->getId());
-        $this->assertSame($message, $received->getMessage());
+        self::assertSame($id, $received->getId());
+        self::assertSame($message, $received->getMessage());
     }
 
     public function testPopMessageWhenNoMessageExists(): void
@@ -315,7 +315,7 @@ class RSMQTest extends TestCase
 
         $received = $this->rsmq->popMessage($queue);
 
-        $this->assertEmpty($received);
+        self::assertEmpty($received);
 
     }
 
@@ -328,9 +328,9 @@ class RSMQTest extends TestCase
         $this->rsmq->createQueue($queue);
         $attrs = $this->rsmq->setQueueAttributes($queue, $vt, $delay, $maxsize);
 
-        $this->assertSame($vt, $attrs->getVt());
-        $this->assertSame($delay, $attrs->getDelay());
-        $this->assertSame($maxsize, $attrs->getMaxSize());
+        self::assertSame($vt, $attrs->getVt());
+        self::assertSame($delay, $attrs->getDelay());
+        self::assertSame($maxsize, $attrs->getMaxSize());
     }
 
     public function tearDown(): void
