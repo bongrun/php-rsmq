@@ -5,3 +5,4 @@ coverage/
 coverage.xml
 clover.xml
 rsmq-rest/
+.DS_Store
