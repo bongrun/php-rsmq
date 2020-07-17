@@ -4,3 +4,4 @@ coverage/
 .phpunit.result.cache
 coverage.xml
 clover.xml
+rsmq-rest/

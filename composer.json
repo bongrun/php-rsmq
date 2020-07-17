@@ -51,8 +51,8 @@
     "security": "php ./vendor/bin/security-checker security:check ./composer.lock",
     "all-the-things": [
       "composer local-test",
-      "composer phpstan",
       "composer cbf",
+      "composer phpstan",
       "composer psalm",
       "composer security"
     ]

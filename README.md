@@ -1,4 +1,5 @@
-# Redis Simple Message Queue
+Redis Simple Message Queue
+--------------------------
 [![Travis CI](https://travis-ci.org/abreksa4/php-rsmq.svg?branch=master)](https://travis-ci.org/abreksa4/php-rsmq)
 [![codecov](https://codecov.io/gh/abreksa4/php-rsmq/branch/master/graph/badge.svg)](https://codecov.io/gh/abreksa4/php-rsmq)
 [![GitHub license](https://img.shields.io/github/license/abreksa4/php-rsmq)](https://github.com/abreksa4/php-rsmq/blob/master/LICENSE)
@@ -10,12 +11,12 @@ A lightweight message queue for PHP that requires no dedicated queue server. Jus
 
 This is a fork of [eislambey/php-rsmq](https://github.com/eislambey/php-rsmq) that uses predis. 
 
-## Installation
+# Installation
     composer require andrewbreksa/rsmq
 
-## Methods
+# Methods
 
-### Construct
+## Construct
 Creates a new instance of RSMQ.
 
 Parameters:
@@ -40,9 +41,9 @@ $predis = new Client(
 $this->rsmq = new RSMQClient($predis);
 ```
 
-### Queue
+## Queue
 
-#### createQueue
+### createQueue
 Create a new queue.
 
 Parameters:
@@ -74,7 +75,7 @@ Example:
 $rsmq->createQueue('myqueue');
 ```
 
-#### listQueues
+### listQueues
 List all queues
 
 Returns an array:
@@ -92,7 +93,7 @@ Example:
 $queues = $rsmq->listQueues();
 ```
 
-#### deleteQueue
+### deleteQueue
 Deletes a queue and all messages.
 
 Parameters:
@@ -119,7 +120,7 @@ Example:
 $rsmq->deleteQueue('myqueue');
 ```
 
-#### getQueueAttributes
+### getQueueAttributes
 Get queue attributes, counter and stats
 
 Parameters:
@@ -160,7 +161,7 @@ echo "hidden messages: ", $attributes->getHiddenMessageCount(), "\n";
 ```
 
 
-#### setQueueAttributes
+### setQueueAttributes
 Sets queue parameters.
 
 Parameters:
@@ -207,9 +208,9 @@ $maxsize = 2048;
 $rsmq->setQueueAttributes($queue, $vt, $delay, $maxsize);
 ```
 
-### Messages
+## Messages
 
-#### sendMessage
+### sendMessage
 Sends a new message.
 
 Parameters:
@@ -240,7 +241,7 @@ $id = $rsmq->sendMessage('myqueue', 'a message');
 echo "Message Sent. ID: ", $id;
 ```
 
-#### receiveMessage
+### receiveMessage
 Receive the next message from the queue.
 
 Parameters:
@@ -276,7 +277,7 @@ echo "Message ID: ", $message->getId();
 echo "Message: ", $message->getMessage();
 ```
 
-#### deleteMessage
+### deleteMessage
 Parameters:
 
 * `$queue` (string): The Queue name.
@@ -301,7 +302,7 @@ $id = $rsmq->sendMessage('queue', 'a message');
 $rsmq->deleteMessage('queue', $id);
 ```
 
-#### popMessage
+### popMessage
 Receive the next message from the queue **and delete it**.
 
 **Important:** This method deletes the message it receives right away. There is no way to receive the message again if 
@@ -338,7 +339,7 @@ echo "Message ID: ", $message->getId();
 echo "Message: ", $message->getMessage();
 ```
 
-#### changeMessageVisibility
+### changeMessageVisibility
 Change the visibility timer of a single message.
 The time when the message will be visible again is calculated from the current time (now) + `vt`.
 
@@ -372,5 +373,22 @@ if($rsmq->changeMessageVisibility($queue, $id, 60)) {
 }
 ```
 
-## LICENSE
+# Development
+## Running tests
+- `docker-compose up -d`
+- `composer test --exclude-group cross-client`
+
+## Running cross-client tests
+To run the cross-client tests, you'll need to (in another console):
+- `docker-compose up -d`
+- `git clone https://github.com/smrchy/rest-rsmq.git` 
+- `cd rest-rsmq`
+- `npm i`
+- `node server.js`
+
+And then:
+- `composer test`
+
+
+# LICENSE
 The MIT LICENSE. See [LICENSE](./LICENSE)
