@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-use AndrewBreksa\RSMQ\ExecutorInterface;
-use AndrewBreksa\RSMQ\Message;
-use AndrewBreksa\RSMQ\QueueWorker;
-use AndrewBreksa\RSMQ\RSMQClientInterface;
-use AndrewBreksa\RSMQ\WorkerSleepProvider;
+use BongRun\RSMQ\ExecutorInterface;
+use BongRun\RSMQ\Message;
+use BongRun\RSMQ\QueueWorker;
+use BongRun\RSMQ\RSMQClientInterface;
+use BongRun\RSMQ\WorkerSleepProvider;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace AndrewBreksa\RSMQ;
+namespace BongRun\RSMQ;
 
 /**
  * @param  int $length

@@ -1,7 +1,7 @@
 <?php
 
-use AndrewBreksa\RSMQ\Exceptions\QueueParametersValidationException;
-use AndrewBreksa\RSMQ\RSMQClient;
+use BongRun\RSMQ\Exceptions\QueueParametersValidationException;
+use BongRun\RSMQ\RSMQClient;
 use PHPUnit\Framework\TestCase;
 use Predis\Client;
 

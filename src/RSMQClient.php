@@ -1,18 +1,18 @@
 <?php
 declare(strict_types=1);
 
-namespace AndrewBreksa\RSMQ;
+namespace BongRun\RSMQ;
 
-use AndrewBreksa\RSMQ\Exceptions\MessageToLongException;
-use AndrewBreksa\RSMQ\Exceptions\QueueAlreadyExistsException;
-use AndrewBreksa\RSMQ\Exceptions\QueueNotFoundException;
-use AndrewBreksa\RSMQ\Exceptions\QueueParametersValidationException;
+use BongRun\RSMQ\Exceptions\MessageToLongException;
+use BongRun\RSMQ\Exceptions\QueueAlreadyExistsException;
+use BongRun\RSMQ\Exceptions\QueueNotFoundException;
+use BongRun\RSMQ\Exceptions\QueueParametersValidationException;
 use Predis\ClientInterface;
 
 /**
  * Class RSMQClient
  *
- * @package AndrewBreksa\RSMQ
+ * @package BongRun\RSMQ
  * @author  Andrew Breksa <andrew@andrewbreksa.com>
  * @author  emre can islambey <eislambey@gmail.com>
  */

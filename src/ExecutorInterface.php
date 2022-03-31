@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
 
-namespace AndrewBreksa\RSMQ;
+namespace BongRun\RSMQ;
 
 /**
  * Interface ExecutorInterface
  *
- * @package AndrewBreksa\RSMQ
+ * @package BongRun\RSMQ
  * @author  Andrew Breksa <andrew@andrewbreksa.com>
  */
 interface ExecutorInterface

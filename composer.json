@@ -1,18 +1,10 @@
 {
-  "name": "andrewbreksa/rsmq",
+  "name": "bongrun/rsmq",
   "description": "Redis Simple Message Queue.",
   "type": "library",
   "license": "MIT",
   "version": "2.0.1",
   "authors": [
-    {
-      "name": "emre can islambey",
-      "email": "eislambey@gmail.com"
-    },
-    {
-      "name": "Andrew Breksa",
-      "email": "andrew@andrewbreksa.com"
-    }
   ],
   "require": {
     "php": "^7.4|^8.0",
@@ -21,7 +13,7 @@
   },
   "autoload": {
     "psr-4": {
-      "AndrewBreksa\\RSMQ\\": "src/"
+      "BongRun\\RSMQ\\": "src/"
     },
     "files": [
       "./src/functions_include.php"
