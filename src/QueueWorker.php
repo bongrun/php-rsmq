@@ -51,16 +51,17 @@ class QueueWorker
      * QueueWorker constructor.
      *
      * @param RSMQClientInterface $rsmq
-     * @param ExecutorInterface   $executor
+     * @param ExecutorInterface $executor
      * @param WorkerSleepProvider $sleepProvider
-     * @param string              $queue
+     * @param string $queue
      */
     public function __construct(
         RSMQClientInterface $rsmq,
-        ExecutorInterface $executor,
+        ExecutorInterface   $executor,
         WorkerSleepProvider $sleepProvider,
-        string $queue
-    ) {
+        string              $queue
+    )
+    {
         $this->rsmq = $rsmq;
         $this->executor = $executor;
         $this->sleepProvider = $sleepProvider;
@@ -69,13 +70,18 @@ class QueueWorker
 
 
     /**
-     * @param  bool $processOne
+     * @param bool $processOne
+     * @param int|null $maxTime
      * @throws Exceptions\QueueNotFoundException
      * @throws Exceptions\QueueParametersValidationException
      */
-    public function work(bool $processOne = false): void
+    public function work(bool $processOne = false, ?int $maxTime = null): void
     {
+        $startTime = microtime(true);
         while (true) {
+            if ($maxTime !== null && microtime(true) - $startTime >= $maxTime) {
+                break;
+            }
             $sleep = $this->sleepProvider->getSleep();
             if ($sleep === null) {
                 break;
