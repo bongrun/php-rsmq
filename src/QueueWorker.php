@@ -82,7 +82,7 @@ class QueueWorker
             }
             $message = $this->rsmq->receiveMessage($this->queue);
             if (!($message instanceof Message)) {
-                sleep($sleep);
+                usleep($sleep);
                 continue;
             }
             $this->received++;

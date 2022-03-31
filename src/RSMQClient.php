@@ -127,7 +127,7 @@ class RSMQClient implements RSMQClientInterface
      * @return bool
      * @throws QueueAlreadyExistsException
      */
-    public function createQueue(string $name, int $vt = 30, int $delay = 0, int $maxSize = 65536): bool
+    public function createQueue(string $name, int $vt = 600, int $delay = 0, int $maxSize = 65536): bool
     {
         $this->validate(
             [
@@ -276,12 +276,15 @@ class RSMQClient implements RSMQClientInterface
             ]
         );
 
-        $transaction = $this->predis->transaction();
-        $transaction->hmget("{$this->ns}$name:Q", ['vt', 'delay', 'maxsize']);
-        $transaction->time();
-        $resp = $transaction->execute();
+        $this->predis->multi();
+        $this->predis->hmget("{$this->ns}$name:Q", ['vt', 'delay', 'maxsize']);
+        $this->predis->time();
+        $resp = $this->predis->exec();
 
         if (!isset($resp[0][0])) {
+            if ($this->createQueue($name)) {
+                return $this->getQueue($name, $generateUid);
+            }
             throw new QueueNotFoundException('Queue not found.');
         }
 
@@ -319,11 +322,11 @@ class RSMQClient implements RSMQClientInterface
         $key = "{$this->ns}$queue";
         $resp = $this->predis->time();
 
-        $transaction = $this->predis->transaction();
-        $transaction->hmget("$key:Q", ['vt', 'delay', 'maxsize', 'totalrecv', 'totalsent', 'created', 'modified']);
-        $transaction->zcard($key);
-        $transaction->zcount($key, $resp[0] . '0000', "+inf");
-        $resp = $transaction->execute();
+        $this->predis->multi();
+        $this->predis->hmget("$key:Q", ['vt', 'delay', 'maxsize', 'totalrecv', 'totalsent', 'created', 'modified']);
+        $this->predis->zcard($key);
+        $this->predis->zcount($key, $resp[0] . '0000', "+inf");
+        $resp = $this->predis->exec();
 
         if (!isset($resp[0][0])) {
             throw new QueueNotFoundException('Queue not found.');

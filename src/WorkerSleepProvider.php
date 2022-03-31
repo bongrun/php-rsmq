@@ -13,7 +13,7 @@ interface WorkerSleepProvider
 {
 
     /**
-     * Return the number of seconds that the worker should sleep for before grabbing the next message.
+     * Return the number of micro seconds that the worker should sleep for before grabbing the next message.
      * Returning null will cause the worker to exit.
      *
      * Note: this method is called _before_ the receiveMessage method is called.
