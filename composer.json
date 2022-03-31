@@ -3,7 +3,7 @@
   "description": "Redis Simple Message Queue.",
   "type": "library",
   "license": "MIT",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "authors": [
   ],
   "require": {
@@ -46,7 +46,5 @@
       "composer psalm",
       "composer toc"
     ]
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+  }
 }
