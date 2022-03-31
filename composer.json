@@ -1,5 +1,5 @@
 {
-  "name": "andrewbreksa/rsmq",
+  "name": "bongrun/rsmq",
   "description": "Redis Simple Message Queue.",
   "type": "library",
   "license": "MIT",
